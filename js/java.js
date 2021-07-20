@@ -1,7 +1,6 @@
 function btnvisible(){
   document.getElementById("chngpic").style.display = "none";
 }
-//window.onload= btnvisible;
 
 function swapTiles(cell1,cell2) {
     var temp = document.getElementById(cell1).className;
@@ -57,14 +56,14 @@ function setPuzzle(){
       var targetTile=document.getElementsByClassName("tile"+count);
       targetTile[0].style.background=bgImg[img];
       if(window.matchMedia("(max-width: 1000px)").matches){
-        var x=(-1)*(row-1)*80;
-        var y=(-1)*(col-1)*80;
+        var x=(-1)*(col-1)*80;
+        var y=(-1)*(row-1)*80;
         targetTile[0].style.backgroundSize="320px 320px";
         targetTile[0].style.backgroundPosition=x+"px "+y+"px";
       }
       else{
-        var x=(-1)*(row-1)*120;
-        var y=(-1)*(col-1)*120;
+        var x=(-1)*(col-1)*120;
+        var y=(-1)*(row-1)*120;
         targetTile[0].style.backgroundSize="480px 480px";
         targetTile[0].style.backgroundPosition=x+"px "+y+"px";
       }
@@ -137,10 +136,13 @@ function shuffle() {
       for(var column=1;column<=4;column++){
         if(document.getElementById("cell"+row+column).className!="tile"+((row-1)*4+column)){
           flag=0;
+          //alert("cell"+row+column+" and tile"+((row-1)*4+column)+" are not equal");
+          break;
         }
       }
     }
     if(flag==1){
+      //alert("cell"+row+column+" and tile"+((row-1)*4+column)+" are equal");
       togglePopup();
     }
   }
@@ -152,6 +154,10 @@ function shuffle() {
          //Checking if white tile on the right
          if (column<4) {
            if ( document.getElementById("cell"+row+(column+1)).className=="tile16") {
+             swapTiles("cell"+row+column,"cell"+row+(column+1));
+             movecount();
+             win();
+             
              if( document.getElementById("cell"+row+column).classList!="right")
              {
               document.getElementById("cell"+row+column).classList.add("right");
@@ -159,57 +165,57 @@ function shuffle() {
                document.getElementById("cell"+row+column).classList.remove("right");
               },50);
              }
-             swapTiles("cell"+row+column,"cell"+row+(column+1));
-             movecount();
-             win();
              return;
            }
          }
          //Checking if white tile on the left
          if (column>1) {
            if ( document.getElementById("cell"+row+(column-1)).className=="tile16") {
-            if( document.getElementById("cell"+row+column).classList!="left")
+            
+             swapTiles("cell"+row+column,"cell"+row+(column-1));
+             movecount();
+             win();
+             if( document.getElementById("cell"+row+column).classList!="left")
              {
               document.getElementById("cell"+row+column).classList.add("left");
               setTimeout(function(){
                document.getElementById("cell"+row+column).classList.remove("left");
               },50);
              }
-             swapTiles("cell"+row+column,"cell"+row+(column-1));
-             movecount();
-             win();
              return;
            }
          }
            //Checking if white tile is above
          if (row>1) {
            if ( document.getElementById("cell"+(row-1)+column).className=="tile16") {
-            if( document.getElementById("cell"+row+column).classList!="up")
+            
+             swapTiles("cell"+row+column,"cell"+(row-1)+column);
+             movecount();
+             win();
+             if( document.getElementById("cell"+row+column).classList!="up")
              {
               document.getElementById("cell"+row+column).classList.add("up");
               setTimeout(function(){
                document.getElementById("cell"+row+column).classList.remove("up");
               },50);
              }
-             swapTiles("cell"+row+column,"cell"+(row-1)+column);
-             movecount();
-             win();
              return;
            }
          }
          //Checking if white tile is below
          if (row<4) {
            if ( document.getElementById("cell"+(row+1)+column).className=="tile16") {
-            if( document.getElementById("cell"+row+column).classList!="down")
+            
+             swapTiles("cell"+row+column,"cell"+(row+1)+column);
+             movecount();
+             win();
+             if( document.getElementById("cell"+row+column).classList!="down")
              {
               document.getElementById("cell"+row+column).classList.add("down");
               setTimeout(function(){
                document.getElementById("cell"+row+column).classList.remove("down");
               },50);
              }
-             swapTiles("cell"+row+column,"cell"+(row+1)+column);
-             movecount();
-             win();
              return;
            }
          } 
